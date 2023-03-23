@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import useStore from "../store/store";
+import { immer } from "zustand/middleware/immer";
 
 const inter = Inter({ subsets: ["latin"] });
 
