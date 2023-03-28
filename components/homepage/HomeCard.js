@@ -25,7 +25,7 @@ export default function HomeCard() {
           where Heroes are made and legends are born
         </Text>
         <Button
-          colorScheme="blue"
+          colorScheme="black"
           size="xlg"
           paddingX={10}
           paddingY={5}
