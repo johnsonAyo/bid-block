@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import useStore from "./../store/store";
 import { immer } from "zustand/middleware/immer";
 import HomeCard from "../components/homepage/HomeCard";
+import MainNavbar from "../components/homepage/MainNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <MainNavbar />
         <HomeCard />
       </main>
     </>

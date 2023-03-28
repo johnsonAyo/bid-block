@@ -8,7 +8,7 @@ export default function HomeCard() {
     justifyContent: "center",
     textAlign: "center",
     width: "100vw",
-    height: "100vh",
+    height: "90vh",
     color: "white",
     textShadow: "0 0 20px black",
     fontWeight: "bold",
