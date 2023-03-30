@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button, Flex } from "@chakra-ui/react";
 
-export default function MainNavbar() {
+export default function Navbar() {
   return (
     <Flex
       alignItems="center"

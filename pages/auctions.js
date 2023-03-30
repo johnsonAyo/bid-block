@@ -1,5 +1,5 @@
 import React from "react";
-import MainNavbar from "../components/navBars/MainNavbar";
+import MainNavbar from "../components/navbars/MainNavbar";
 import SearchBar from "../components/homepage/SearchBar";
 import Auctions from "../components/homepage/Auctions";
 import TopAunction from "../components/homepage/TopAunction";
