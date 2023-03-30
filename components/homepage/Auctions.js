@@ -2,7 +2,7 @@ import React from "react";
 import { Flex } from "@chakra-ui/react";
 import AunctionCards from "./AunctionCard";
 
-const Auctions = () => {
+const AuctionsComponent = () => {
   return (
     <Flex marginX="20">
       <AunctionCards />
@@ -10,4 +10,4 @@ const Auctions = () => {
   );
 };
 
-export default Auctions;
+export default AuctionsComponent;
