@@ -1,11 +1,10 @@
-import { useState } from "react";
 import Image from "next/image";
-import { Box, Text, Grid, Button, Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 export default function MainNavbar() {
   return (
     <Flex
-      alignItem="center"
+      alignItems="center"
       justifyContent="space-between"
       bg="black"
       color="white"

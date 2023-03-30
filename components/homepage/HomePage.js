@@ -1,5 +1,6 @@
-import { Box, Text, Grid, Button, Input, Flex } from "@chakra-ui/react";
+import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
+import SearchBar from "./SearchBar";
 
 export default function HomePage() {
   const basicBoxStyles = {
@@ -12,38 +13,16 @@ export default function HomePage() {
     height: "90vh",
     color: "white",
     textShadow: "0 0 20px black",
-    fontWeight: "bold",
-    fontSize: "20px",
-    px: 4,
+
     background: "url('/images/svg/plain_bg.svg') center/cover no-repeat",
   };
 
   return (
     <Box sx={basicBoxStyles}>
-      <Flex justifyContent="space-between" width="40%">
-        <Input
-          placeholder="Search"
-          htmlSize={4}
-          width="sm"
-          bgColor="white"
-          variant="filled"
-        />
-        <Button
-          colorScheme="black"
-          size="md"
-          paddingX={10}
-          paddingY={5}
-          color="white"
-          variant="outline"
-          border="2px"
-          borderColor="white"
-        >
-          Create
-        </Button>
-      </Flex>
+      <SearchBar />
       <Box height="85%" width="80%">
-        <Flex justifyContent="space-between" width="100%" padding="1rem">
-          <Text fontSize="3xl"> Live Auction</Text>
+        <Flex justifyContent="space-between" width="100%" marginTop="2">
+          <Text fontSize="2xl">Live Auction</Text>
           <Text fontSize="lg"> See All</Text>
         </Flex>
         <Flex
@@ -95,7 +74,6 @@ export default function HomePage() {
               border="2px"
               borderColor="white"
               marginLeft="200px"
-              marginTop={5}
             >
               Enter Auction
             </Button>
