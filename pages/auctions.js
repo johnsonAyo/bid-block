@@ -1,17 +1,17 @@
 import React from "react";
-import MainNavbar from "../components/NavBars/MainNavbar";
-import SearchBarComponent from "../components/Homepage/SearchBar";
-import AuctionsComponent from "../components/Homepage/Auctions";
-import TopAunctionComponent from "../components/Homepage/TopAunction";
+import MainNavbar from "../components/navBars/MainNavbar";
+import SearchBar from "../components/homepage/SearchBar";
+import Auctions from "../components/homepage/Auctions";
+import TopAunction from "../components/homepage/TopAunction";
 import { Box } from "@chakra-ui/react";
 
 const autions = () => {
   return (
     <Box height="100vh">
       <MainNavbar />
-      <SearchBarComponent />
-      <AuctionsComponent />
-      <TopAunctionComponent />
+      <SearchBar />
+      <Auctions />
+      <TopAunction />
     </Box>
   );
 };

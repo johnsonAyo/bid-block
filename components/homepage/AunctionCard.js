@@ -40,7 +40,7 @@ const UpcomingList = [
   },
 ];
 
-const AunctionCards = () => {
+const AunctionCard = () => {
   return (
     <Box>
       <Flex justifyContent="space-between">
@@ -109,4 +109,4 @@ const AunctionCards = () => {
   );
 };
 
-export default AunctionCards;
+export default AunctionCard;

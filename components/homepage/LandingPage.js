@@ -1,6 +1,6 @@
 import { Box, Text, Button, Flex } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
-import SearchBarComponent from "./SearchBar";
+import SearchBar from "./SearchBar";
 
 export default function LandingPage() {
   const basicBoxStyles = {
@@ -19,7 +19,7 @@ export default function LandingPage() {
 
   return (
     <Box sx={basicBoxStyles}>
-      <SearchBarComponent />
+      <SearchBar />
       <Box height="85%" width="80%">
         <Flex justifyContent="space-between" width="100%" marginTop="2">
           <Text fontSize="2xl">Live Auction</Text>
