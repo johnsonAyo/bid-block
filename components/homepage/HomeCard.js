@@ -1,5 +1,4 @@
 import { Box, Text, Grid, Button } from "@chakra-ui/react";
-import { Black_And_White_Picture } from "next/font/google";
 
 export default function HomeCard() {
   const basicBoxStyles = {
