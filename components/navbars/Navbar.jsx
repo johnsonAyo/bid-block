@@ -15,7 +15,7 @@ export default function Navbar() {
         <Image src="/images/svg/logo.svg" alt="" width="100" height="100" />
       </a>
       <Button
-        colorScheme="blue"
+        colorScheme="black"
         size="lg"
         paddingX={10}
         paddingY={2}

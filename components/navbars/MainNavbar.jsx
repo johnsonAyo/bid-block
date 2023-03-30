@@ -29,7 +29,7 @@ export default function MainNavbar() {
         Asset
       </a>
       <Button
-        colorScheme="blue"
+        colorScheme="black"
         size="lg"
         paddingX={10}
         paddingY={2}

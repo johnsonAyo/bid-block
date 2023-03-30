@@ -7,6 +7,7 @@ const SearchBar = () => {
       <Input placeholder="Search" htmlSize={4} width="sm" variant="filled" />
       <Button
         bgColor="black"
+        colorScheme="black"
         size="md"
         paddingX={10}
         paddingY={5}
