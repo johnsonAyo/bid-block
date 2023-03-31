@@ -1,10 +1,7 @@
-import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import useStore from "./../store/store";
-import { immer } from "zustand/middleware/immer";
-import HomePage from "../components/homepage/HomePage";
-import Navbar from "../components/NavBars/Navbar";
+import LandingPage from "../components/homepage/LandingPage";
+import Navbar from "../components/navbars/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +12,7 @@ export default function Home() {
     <>
       <main>
         <Navbar />
-        <HomePage />
+        <LandingPage />
       </main>
     </>
   );

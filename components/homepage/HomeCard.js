@@ -1,10 +1,9 @@
 import { Box, Text, Grid, Button } from "@chakra-ui/react";
-import { Black_And_White_Picture } from "next/font/google";
 
 export default function HomeCard() {
   const basicBoxStyles = {
     display: "flex",
-    alignItems: "center",
+    alignItems: "end",
     justifyContent: "center",
     textAlign: "center",
     width: "100vw",
@@ -12,16 +11,14 @@ export default function HomeCard() {
     color: "white",
     textShadow: "0 0 20px black",
     fontWeight: "bold",
-    fontSize: "20px",
-    px: 4,
     background: "url('/images/svg/bg_home.svg') center/cover no-repeat",
   };
 
   return (
     <Box sx={basicBoxStyles}>
-      <Box marginTop={20}>
-        <Text fontSize="5xl" fontWeight="extrabold">
-          Welcome to the Future of Autions <br />
+      <Box marginBottom="20">
+        <Text fontSize="4xl" fontWeight="extrabold">
+          Welcome to the Future of auctions <br />
           where Heroes are made and legends are born
         </Text>
         <Button

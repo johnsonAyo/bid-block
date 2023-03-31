@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Image from "next/image";
-import { Box, Text, Grid, Button, Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 export default function MainNavbar() {
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <Flex
-      alignItem="center"
+      alignItems="center"
       justifyContent="space-between"
       bg="black"
       color="white"
@@ -15,8 +16,20 @@ export default function MainNavbar() {
       <a href="./">
         <Image src="/images/svg/logo.svg" alt="" width="100" height="100" />
       </a>
+      <a href="./home" className="block px-8 py-4 hover:border">
+        Home
+      </a>
+      <a href="./auctions" className="block px-8 py-4 hover:border">
+        Auctions
+      </a>
+      <a href="" className="block px-8 py-4 hover:border">
+        Domain
+      </a>
+      <a href="" className="block px-8 py-4 hover:border">
+        Asset
+      </a>
       <Button
-        colorScheme="blue"
+        colorScheme="black"
         size="lg"
         paddingX={10}
         paddingY={2}
