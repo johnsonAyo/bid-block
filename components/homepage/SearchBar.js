@@ -83,20 +83,25 @@ const SearchBar = () => {
                       contract
                     </Text>
                     <Flex justifyContent="center" marginTop="20">
-                      <Button
-                        colorScheme="black"
-                        bgColor="black"
-                        size="lg"
-                        paddingX={20}
-                        paddingY={5}
-                        color="white"
-                        variant="outline"
-                        border="2px"
-                        borderColor="white"
-                        onClick={onOpen}
+                      <a
+                        href="./create-listing"
+                        className="block px-8 py-4 hover:border"
                       >
-                        Mint
-                      </Button>
+                        <Button
+                          colorScheme="black"
+                          bgColor="black"
+                          size="lg"
+                          paddingX={20}
+                          paddingY={5}
+                          color="white"
+                          variant="outline"
+                          border="2px"
+                          borderColor="white"
+                          onClick={onOpen}
+                        >
+                          Mint
+                        </Button>
+                      </a>
                     </Flex>
                   </TabPanel>
                   <TabPanel>
