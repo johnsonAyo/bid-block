@@ -21,19 +21,21 @@ export default function HomeCard() {
           Welcome to the Future of auctions <br />
           where Heroes are made and legends are born
         </Text>
-        <Button
-          colorScheme="black"
-          size="xlg"
-          paddingX={10}
-          paddingY={5}
-          marginTop={20}
-          color="white"
-          variant="outline"
-          border="2px"
-          borderColor="white"
-        >
-          Get Started
-        </Button>
+        <a href="./auctions">
+          <Button
+            colorScheme="black"
+            size="xlg"
+            paddingX={10}
+            paddingY={5}
+            marginTop={20}
+            color="white"
+            variant="outline"
+            border="2px"
+            borderColor="white"
+          >
+            Get Started
+          </Button>
+        </a>
       </Box>
     </Box>
   );

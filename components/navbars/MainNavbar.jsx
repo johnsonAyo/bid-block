@@ -22,8 +22,8 @@ export default function MainNavbar() {
       <a href="./auctions" className="block px-8 py-4 hover:border">
         Auctions
       </a>
-      <a href="" className="block px-8 py-4 hover:border">
-        Domain
+      <a href="./place-bid" className="block px-8 py-4 hover:border">
+        Place Bid
       </a>
       <a href="" className="block px-8 py-4 hover:border">
         Asset
