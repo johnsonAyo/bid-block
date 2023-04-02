@@ -40,7 +40,7 @@ export default function LandingPage() {
             alignItems="start"
             padding={10}
           >
-            <Box display="flex">
+            <Flex>
               <a href="./nft-auction-page">
                 <Image boxSize="100%" src="/images/svg/profile.svg" alt="" />
               </a>
@@ -50,7 +50,7 @@ export default function LandingPage() {
                 </Text>
                 <Text fontSize="xs"> Created on 23-12-2023</Text>
               </Box>
-            </Box>
+            </Flex>
             <Text fontSize="md">Starting Price</Text>
             <Text fontSize="3xl">0.45 Eth</Text>
             <Flex gap={10}>
