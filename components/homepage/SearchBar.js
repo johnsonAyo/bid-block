@@ -17,7 +17,6 @@ import {
   TabPanel,
   useDisclosure,
   Text,
-  Box,
 } from "@chakra-ui/react";
 
 const SearchBar = () => {

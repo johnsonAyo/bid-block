@@ -1,4 +1,6 @@
-import { Box, Text, Grid, Button } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 export default function HomeCard() {
   const basicBoxStyles = {
@@ -21,21 +23,13 @@ export default function HomeCard() {
           Welcome to the Future of auctions <br />
           where Heroes are made and legends are born
         </Text>
-        <a href="./auctions">
-          <Button
-            colorScheme="black"
-            size="xlg"
-            paddingX={10}
-            paddingY={5}
-            marginTop={20}
-            color="white"
-            variant="outline"
-            border="2px"
-            borderColor="white"
-          >
-            Get Started
-          </Button>
-        </a>
+        <Box marginTop="20">
+          <ConnectWallet
+            btnTitle="Get Started"
+            theme="white"
+            className="my-custom-class"
+          />
+        </Box>
       </Box>
     </Box>
   );
