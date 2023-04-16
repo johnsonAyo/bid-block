@@ -1,0 +1,144 @@
+import React, { useContext, createContext } from 'react';
+
+import { useAddress, useContract, useMetamask, useContractWrite } from '@thirdweb-dev/react';
+import { ethers } from 'ethers';
+import { EditionMetadataWithOwnerOutputSchema } from '@thirdweb-dev/sdk';
+import { uploadFileToIPFS, uploadJSONToIPFS } from "../pinata";
+
+const StateContext = createContext();
+
+export const StateContextProvider = ({ children }) => {
+  const { contract } = useContract('0x68553a3F3dFB17957A3b641CBf16AaE23dF96903');
+  const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
+
+  const address = useAddress();
+  const connect = useMetamask();
+
+   //This function uploads the metadata to IPFS
+async function uploadMetadataToIPFS(fileURL) {
+  const {ownername, description} = formParams;
+  // console.log("get",IPname);
+  if( !ownername || !description || !fileURL)
+      return;
+
+  const nftJSON = {
+      ownername, description, image: fileURL
+  }
+
+  try {
+      //upload the metadata JSON to IPFS
+      const response = await uploadJSONToIPFS(nftJSON);
+      if(response.success === true){
+          console.log("Uploaded JSON to Pinata: ", response)
+          return response.pinataURL;
+      }
+  }
+  catch(e) {
+      console.log("error uploading JSON metadata:", e)
+  }
+}
+
+async function createNFTauction(fileURL) {
+  const { ownername, description } = formParams;
+  console.log("spooon",formParams);
+  console.log("forrk",fileURL);  uploadMetadataToIPFS(fileURL)
+
+  try {
+    if(ethereum){
+      const metadataURL = await uploadMetadataToIPFS(fileURL);
+     
+      updateMessage("Please wait.. uploading (upto 5 mins)")
+     
+      let listingPrice = await transactionsContract.getListPrice()
+      listingPrice = listingPrice.toString()
+// contract.call('mint', metadataURL, address)
+      let transaction = await transactionsContract.createToken(metadataURL, { value: listingPrice })
+      await transaction.wait()
+
+      alert("Successfully listed your NFT!");
+        
+      window.location.replace("/")
+    } else { console.log("No ethereum object now"); }
+  }
+  catch(e) {
+      alert( "Upload error"+e )
+  }
+}
+
+  const publishCampaign = async (form) => {
+    try {
+      const data = await createCampaign([
+        address, // owner
+        form.title, // title
+        form.description, // description
+        form.target,
+        new Date(form.deadline).getTime(), // deadline,
+        form.image
+      ])
+
+      console.log("contract call success", data)
+    } catch (error) {
+      console.log("contract call failure", error)
+    }
+  }
+
+  const getCampaigns = async () => {
+    const campaigns = await contract.call('getCampaigns');
+
+    const parsedCampaings = campaigns.map((campaign, i) => ({
+      owner: campaign.owner,
+      title: campaign.title,
+      description: campaign.description,
+      target: ethers.utils.formatEther(campaign.target.toString()),
+      deadline: campaign.deadline.toNumber(),
+      amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+      image: campaign.image,
+      pId: i
+    }));
+
+    return parsedCampaings;
+  }
+
+  const getUserCampaigns = async () => {
+    const allCampaigns = await getCampaigns();
+
+    const filteredCampaigns = allCampaigns.filter((campaign) => campaign.owner === address);
+
+    return filteredCampaigns;
+  }
+
+  const donate = async (pId, amount) => {
+    const data = await contract.call('donateToCampaign', pId, { value: ethers.utils.parseEther(amount)});
+
+    return data;
+  }
+
+  const getDonations = async (pId) => {
+    const donations = await contract.call('getDonators', pId);
+    const numberOfDonations = donations[0].length;
+
+    const parsedDonations = [];
+
+    for(let i = 0; i < numberOfDonations; i++) {
+      parsedDonations.push({
+        donator: donations[0][i],
+        donation: ethers.utils.formatEther(donations[1][i].toString())
+      })
+    }
+
+    return parsedDonations;
+  }
+
+
+  return (
+    <StateContext.Provider
+      value={{ 
+       
+      }}
+    >
+      {children}
+    </StateContext.Provider>
+  )
+}
+
+export const useStateContext = () => useContext(StateContext);

@@ -40,10 +40,12 @@ contract NFTAuction is ERC721URIStorage, ReentrancyGuard {
 
     uint private bidCount = 0;
     uint private revealedCount = 0;
-
+    address payable owner;
+    uint256 startingPrice = 0.01 ether;
     constructor() ERC721("piggyNFT", "PNFT") {
         tokenCounter = 0;
         listingCounter = 0;
+        owner = payable(msg.sender);   
     }
     struct Bid {
         bytes32 sealedBid;
@@ -54,13 +56,6 @@ contract NFTAuction is ERC721URIStorage, ReentrancyGuard {
     mapping (uint256 => mapping(address => Bid[])) public bidMap;
     // EVENTS 
     event AuctionEnded(address winner, uint highestBid);
-
-    // function isBidder(uint listingId, address bidder, uint _id) public view returns(bool isIndeed) {
-    //     // bidMap[listingId][bidder];
-    //     bool val = bidMap[listingId][bidder][_id].exists;
-    //     console.log("Boyfrined" ,val);
-    //     return val;
-    // }
 
     function mint(string memory tokenURI, address minterAddress) public returns (uint256) {
         tokenCounter++;
@@ -73,7 +68,9 @@ contract NFTAuction is ERC721URIStorage, ReentrancyGuard {
         return tokenId;
     }
 
-    function createAuctionListing (uint256 price, uint256 tokenId, uint256 durationInSeconds, uint256 revealInSeconds) public returns (uint256) {
+    function createAuctionListing (uint256 price, uint256 tokenId, uint256 durationInSeconds, uint256 revealInSeconds) public payable returns (uint256) {
+        require(msg.value == startingPrice, "Must pay the starting price value to start an auction");
+        require(price > 0, "Make sure the price isn't negative");
         listingCounter++;
         uint256 listingId = listingCounter;
         uint256 startAt = block.timestamp;
@@ -92,6 +89,7 @@ contract NFTAuction is ERC721URIStorage, ReentrancyGuard {
         });
 
         _transfer(msg.sender, address(this), tokenId);
+        payable(owner).transfer(startingPrice);
 
         emit AuctionCreated(listingId, msg.sender, price, tokenId, startAt, endAt);
 
