@@ -38,6 +38,7 @@ export default function App({ Component, pageProps }) {
         autoConnect={false}
         storageInterface={storage}
       >
+      
         <ChakraProvider>
           <Component {...pageProps} />
         </ChakraProvider>

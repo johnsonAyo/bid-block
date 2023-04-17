@@ -1,8 +1,11 @@
 import { Box, Text } from "@chakra-ui/react";
 
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { useMetamask, useAddress, ConnectWallet } from "@thirdweb-dev/react";
 
 export default function HomeCard() {
+  const address = useAddress();
+  const connect = useMetamask();
+
   const basicBoxStyles = {
     display: "flex",
     alignItems: "end",

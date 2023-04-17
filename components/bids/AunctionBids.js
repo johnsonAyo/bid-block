@@ -126,16 +126,16 @@ const AunctionBids = () => {
             </Text>
             <Flex direction="column" gap={7}>
               <Flex>
-                <Text> Artist - Markinbox</Text>
-                <Text> Collection - Road to victory</Text>
+                <Text> Artist - Markinbox </Text>
+                <Text> Collection - Road to victory </Text>
               </Flex>
               <Flex>
-                <Text> FileSize - 23mb</Text>
-                <Text> Liscense - Markinbox 100%</Text>
+                <Text> FileSize - 23mb </Text>
+                <Text> Liscense - Markinbox 100% </Text>
               </Flex>
 
-              <Text> Medium - Non-Fungible-Token</Text>
-              <Text> Year - 2023</Text>
+              <Text> Medium - Non-Fungible-Token </Text>
+              <Text> Year - 2023  </Text>
             </Flex>
           </Box>
         </Flex>
