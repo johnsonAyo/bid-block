@@ -139,7 +139,7 @@ const AuctionSealbid = () => {
                     borderColor="white"
                     bgColor="black"
                     width="20%"
-                    onClick={sealedDetails}
+                    onClick={seal}
                   >
                     Seal Bid
                   </Button>              
