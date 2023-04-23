@@ -1,14 +1,43 @@
-import React from "react";
+import React, {useState} from "react";
 import MainNavbar from "../navbars/MainNavbar";
 import SearchBar from "components/homepage/SearchBar";
-import { Button, Flex, Text, Box, Image } from "@chakra-ui/react";
+import { Button, Flex, Text, Box, Image, Input, useClipboard, NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper, } from "@chakra-ui/react";
 import TopAuctionCard from "components/homepage/TopAuctionCard";
 import TopAunction from "components/homepage/TopAunction";
+import { useStateContext } from '../../context';
+import AuctionPlacebid from "./AuctionPlacebid";
 
-const AunctionBids = () => {
+const AuctionSealbid = () => {
+  const { sealBid, connect, address, getNFTData, nfttoken, getMyNfts, sealedDetails, sealed, setsealParams, sealParams, byte } = useStateContext();
+  const [value, setValue] = useState(address);
+  const { onCopy, hasCopied } = useClipboard(value);
+  const [show, setShow] = useState(false);
+  const [reveal, showReveal] = useState(false);
+
+  const formChange = (event) => {
+    setsealParams((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value
+    }))
+  }
+  const handleFormFieldChange = (fieldName, e) => {
+    setsealParams({ ...sealParams, [fieldName]: e.target.value })
+  }
+  //console.log("chu", sealParams);
+  const seal = () => {
+    //setShow(true);
+    //getNFTData()
+    //nfttoken()
+    sealBid()
+  }
+
   return (
     <>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
       <SearchBar />
       <Box marginX="9rem">
         <Text marginY="2" fontSize="2xl" color="red" fontWeight="bold">
@@ -55,7 +84,15 @@ const AunctionBids = () => {
                   12.07.56
                 </Text>
               </Box>
+              <Box>
+                <Text fontSize="md"> Reveal time Ends In</Text>
+                <Text fontSize="xl" fontWeight="bold">
+                  {" "}
+                  12.07.56  
+                </Text>
+              </Box>
             </Flex>
+
             <Box>
               <Text fontSize="2xl" fontWeight="bold">
                 {" "}
@@ -70,21 +107,46 @@ const AunctionBids = () => {
                 tandem with spiritual connections within the natural world.
               </Text>
             </Box>
-            <Flex justifyContent="center">
-              <Button
-                colorScheme="black"
-                size="xlg"
-                paddingY={5}
-                color="white"
-                variant="outline"
-                border="2px"
-                borderColor="white"
-                bgColor="black"
-                width="50%"
-              >
-                Place Bid
-              </Button>
-            </Flex>
+            {!sealed ? 
+            <Box>
+                <Box mb={5}>
+                  <Text mb="5px" fontWeight="bold">
+                    Bid Value:
+                  </Text>
+                  <NumberInput defaultValue={0} step={0.1} name={'bidvalue'} value={sealParams.bidvalue} onChange={(value) => formChange({ target: { name: 'bidvalue', value }})}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </Box>
+
+                <Box mb={5}>
+                    <Text marginRight="8px">
+                     <Input type="password" placeholder="passcode" height="40px" width="101%"  onChange={(e) => handleFormFieldChange('passcode', e)}  value={sealParams.passcode}/>
+                  </Text>
+                </Box>
+
+                <Flex justifyContent="center">          
+                  <Button
+                    colorScheme="black"
+                    size="xlg"
+                    paddingY={3}
+                    color="white"
+                    variant="outline"
+                    border="2px"
+                    borderColor="white"
+                    bgColor="black"
+                    width="20%"
+                    onClick={sealedDetails}
+                  >
+                    Seal Bid
+                  </Button>              
+                </Flex>
+            </Box>
+         : <AuctionPlacebid bytehash={byte}/>}        
+            
           </Flex>
         </Flex>
         <Flex
@@ -145,4 +207,4 @@ const AunctionBids = () => {
   );
 };
 
-export default AunctionBids;
+export default AuctionSealbid;

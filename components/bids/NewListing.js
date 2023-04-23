@@ -8,11 +8,31 @@ import {
   Box,
   Image,
   Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
+import { useStateContext } from '../../context';
+
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const NewListing = () => {
+  const { address, message, startAuction, getMyNfts, mynft, listingParams, updateListingParams } = useStateContext();
   const [currentStep, setCurrentStep] = useState("1");
+
+  const formChange = (event) => {
+    updateListingParams((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value
+    }))
+  }
+
+  const auctionstart = () => {
+    startAuction()
+  }
+
   const Step1 = () => {
     return (
       <Flex direction="column" marginY="5rem" paddingX="15rem" gap={5}>
@@ -27,22 +47,28 @@ const NewListing = () => {
         </Text>
         <Box>
           <Text mb="5px" fontWeight="bold">
-            Name:
+            TokenId:
           </Text>
-          <Input placeholder="Here is a sample placeholder" size="lg" />
+          <Input type="number" placeholder="your nft token id" size="lg" onChange={e => updateListingParams({...listingParams, tokenId: e.target.value})} value={listingParams.tokenId} />
         </Box>
         <Box>
           <Text mb="5px" fontWeight="bold">
-            External Links:
+            Price:
           </Text>
-          <Input placeholder="Here is a sample placeholder" size="lg" />
+          <NumberInput defaultValue={0} step={0.1}  name={'price'}  value={listingParams.price} onChange={(value) => formChange({ target: { name: 'price', value }})}  >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+          </NumberInput>
         </Box>
-        <Box>
+        {/* <Box>
           <Text mb="5px" fontWeight="bold">
             Description:
           </Text>
           <Textarea placeholder="Here is a sample placeholder" size="lg" />
-        </Box>
+        </Box> */}
         <Flex justifyContent="center">
           <Button
             colorScheme="black"
@@ -73,10 +99,35 @@ const NewListing = () => {
             mt="3"
           />
           <Text fontSize="4xl" textAlign="center" width="95%">
-            Create New Listing
+            Setup Auction Duration Time In Seconds
           </Text>
         </Flex>
-        <Flex direction="column" px="10rem" gap={5}>
+        <Box>
+          <Text mb="5px" fontWeight="bold">
+            Auction Duration(s):
+          </Text>
+          <NumberInput defaultValue={60} step={60} name={'auction_duration'} value={listingParams.auction_duration} onChange={(value) => formChange({ target: { name: 'auction_duration', value }})} >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+          </NumberInput>
+        </Box>
+
+        <Box>
+          <Text mb="5px" fontWeight="bold">
+            Reveal Duration(s):
+          </Text>
+          <NumberInput defaultValue={60} step={60} name={'auction_reveal'} value={listingParams.auction_reveal} onChange={(value) => formChange({ target: { name: 'auction_reveal', value }})}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+          </NumberInput>
+        </Box>
+        {/* <Flex direction="column" px="10rem" gap={5}>
           <Text fontSize="md">
             Create a new NFT and mint it into one of your own ERC-1155 contract
           </Text>
@@ -121,7 +172,7 @@ const NewListing = () => {
               <option value="option3">Arbitrium</option>
             </Select>
           </Box>
-        </Flex>
+        </Flex> */}
 
         <Flex justifyContent="center">
           <Button
@@ -135,10 +186,13 @@ const NewListing = () => {
             borderColor="white"
             bgColor="black"
             width="40%"
+            onClick={auctionstart}
           >
             Create
           </Button>
         </Flex>
+
+        <Box>{message}</Box>
       </Flex>
     );
   };

@@ -1,11 +1,12 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
-import AunctionCards from "./AunctionCard";
+import { Flex, Text } from "@chakra-ui/react";
+import AuctionCards from "./AuctionCard";
+import { useStateContext } from '../../context';
 
 const Auctions= () => {
   return (
     <Flex marginX="20">
-      <AunctionCards />
+      <AuctionCards />
     </Flex>
   );
 };

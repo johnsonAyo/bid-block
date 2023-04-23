@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, Text, Box } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const liveList = [
   {
@@ -40,7 +41,9 @@ const UpcomingList = [
   },
 ];
 
-const AunctionCard = () => {
+
+const AuctionCard = () => {
+  
   return (
     <Box>
       <Flex justifyContent="space-between">
@@ -49,7 +52,17 @@ const AunctionCard = () => {
         </Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
+      {/* <motion.li className="card" whileHover={{
+        position: 'relative',
+        zIndex: 1,
+        background: 'white',
+        scale: 1.2,
+        transition: {
+          duration: .2
+        }
+      }}> */}
       <Flex gap={5} marginBottom="10">
+      
         {liveList.map((auction) => {
           return (
             <Box key={auction.id} color="black">
@@ -59,7 +72,10 @@ const AunctionCard = () => {
             </Box>
           );
         })}
+        
       </Flex>
+      {/* </motion.li> */}
+      
       <Flex justifyContent="space-between">
         <Text fontSize="2xl">Upcoming Auction</Text>
         <Text fontSize="md"> See All</Text>
@@ -109,4 +125,4 @@ const AunctionCard = () => {
   );
 };
 
-export default AunctionCard;
+export default AuctionCard;

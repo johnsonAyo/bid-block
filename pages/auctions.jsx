@@ -4,12 +4,11 @@ import SearchBar from "../components/homepage/SearchBar";
 import Auctions from "../components/homepage/Auctions";
 import TopAunction from "../components/homepage/TopAunction";
 import { Box } from "@chakra-ui/react";
-import AunctionBids from "components/bids/AunctionBids";
 
 const autions = () => {
   return (
     <Box height="100vh">
-      <MainNavbar />
+      {/* <MainNavbar /> */}
       <SearchBar />
       <Auctions />
       <TopAunction />
