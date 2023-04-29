@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import useStore from "./../store/store";
+import useStore from "../store/store";
 import LandingPage from "../components/homepage/LandingPage";
 import Navbar from "../components/navbars/Navbar";
 import { useStateContext } from '../context';

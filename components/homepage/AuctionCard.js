@@ -49,7 +49,7 @@ const AuctionCard = (data) => {
   //console.log("card", data);
   return (
     <>   
-    <Box marginTop={20}>       
+    <Box marginTop={1}>       
       <Flex marginRight={12} marginBottom="10">
             <Box key={data.data.tokenId} color="black">
                 {/* <Link

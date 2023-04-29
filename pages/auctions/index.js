@@ -5,7 +5,7 @@ import Auctions from "../../components/homepage/Auctions";
 import TopAunction from "../../components/homepage/TopAunction";
 import { Box, Text } from "@chakra-ui/react";
 import { useStateContext } from '../../context';
-const autions = () => {
+const auctions = () => {
   const {address, alerting, setAlert} = useStateContext();
   if(address){
     setAlert("");
@@ -23,4 +23,4 @@ const autions = () => {
   );
 };
 
-export default autions;
+export default auctions;

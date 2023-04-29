@@ -10,7 +10,7 @@ const Auctions= () => {
   });
   return (
     <>
-      <Flex justifyContent="space-between" marginX={10}>
+      <Flex justifyContent="space-between" marginX={10} marginTop={9}>
         <Text fontSize="2xl" color="red">
           Live Auction
         </Text>

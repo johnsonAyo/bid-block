@@ -4,7 +4,7 @@ import StartAuction from "../components/homepage/StartAuction";
 import { Box } from "@chakra-ui/react";
 import { useStateContext } from '../context';
 
-const mynft = () => {
+const Mynft = () => {
   const {connect, address, getNFTData, getMyNfts, nfttoken, tokens } = useStateContext();
   useEffect(() => {
     nfttoken();
@@ -19,4 +19,4 @@ const mynft = () => {
   )
 }
 
-export default mynft
+export default Mynft
