@@ -4,23 +4,23 @@ import SearchBar from "../../components/homepage/SearchBar";
 import Auctions from "../../components/homepage/Auctions";
 import TopAunction from "../../components/homepage/TopAunction";
 import { Box, Text } from "@chakra-ui/react";
-import { useStateContext } from '../../context';
-const autions = () => {
-  const {address, alerting, setAlert} = useStateContext();
-  if(address){
+import { useStateContext } from "../../context";
+const Autions = () => {
+  const { address, alerting, setAlert } = useStateContext();
+  if (address) {
     setAlert("");
-   }
+  }
   return (
     <>
-    <Text>{alerting}</Text>
-    <Box height="100vh">
-      {/* <MainNavbar /> */}
-      <SearchBar />
-      <Auctions />
-      <TopAunction />
-    </Box>
+      <Text>{alerting}</Text>
+      <Box height="100vh">
+        {/* <MainNavbar /> */}
+        <SearchBar />
+        <Auctions />
+        <TopAunction />
+      </Box>
     </>
   );
 };
 
-export default autions;
+export default Autions;
