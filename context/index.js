@@ -3,7 +3,7 @@ import React, { useContext, createContext, useEffect, useState} from 'react';
 import { useAddress, useContract, useMetamask, useContractWrite,useNFTs, useMintNFT } from '@thirdweb-dev/react';
 import { ethers } from 'ethers';
 import { EditionMetadataWithOwnerOutputSchema } from '@thirdweb-dev/sdk';
-import { uploadFileToIPFS, uploadJSONToIPFS } from "../pages/pianata";
+import { uploadFileToIPFS, uploadJSONToIPFS } from "../pages/Pianata";
 import { Sepolia } from "@thirdweb-dev/chains";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import axios from "axios";

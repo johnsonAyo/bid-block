@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { uploadFileToIPFS } from "../../pages/pianata";
+import { uploadFileToIPFS } from "../../pages/Pianata";
 import { useStateContext } from '../../context';
 import { 
   Button,
