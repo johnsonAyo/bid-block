@@ -9,14 +9,20 @@ const Auctions= () => {
     getAllNFTs();
   });
   return (
-    // <Flex marginX="20">
-    //   <AuctionCards />
-    // </Flex>
-    <Flex marginX="20" marginTop={10}>
-      {allNfts.map((value, index) => {
-          return <AuctionCards data={value} key={index}></AuctionCards>;
-      })}
-    </Flex>
+    <>
+      <Flex justifyContent="space-between" marginX={10}>
+        <Text fontSize="2xl" color="red">
+          Live Auction
+        </Text>
+        <Text fontSize="md"> See All</Text>
+      </Flex>
+   
+      <Flex marginX="20" marginTop={10}>
+        {allNfts.map((value, index) => {
+            return <AuctionCards data={value} key={index}></AuctionCards>;
+        })}
+      </Flex>
+    </>
   );
 };
 

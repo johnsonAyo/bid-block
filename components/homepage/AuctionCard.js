@@ -48,15 +48,9 @@ const AuctionCard = (data) => {
   const router = useRouter();
   //console.log("card", data);
   return (
-    <Box>
-      <Flex justifyContent="space-between">
-        <Text fontSize="2xl" color="red">
-          Live Auction
-        </Text>
-        <Text fontSize="md"> See All</Text>
-      </Flex>
-   
-      <Flex gap={5} marginBottom="10">
+    <>   
+    <Box marginTop={20}>       
+      <Flex marginRight={12} marginBottom="10">
             <Box key={data.data.tokenId} color="black">
                 {/* <Link
                    href={{
@@ -81,7 +75,7 @@ const AuctionCard = (data) => {
       </Flex>
   
       
-      <Flex justifyContent="space-between">
+      {/* <Flex justifyContent="space-between">
         <Text fontSize="2xl">Upcoming auctions</Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
@@ -141,9 +135,9 @@ const AuctionCard = (data) => {
                     <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" />               
                 </Link>
             </Box>      
-      </Flex>
-
+      </Flex> */}
     </Box>
+    </>
   );
 };
 

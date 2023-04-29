@@ -5,6 +5,7 @@ import { useStateContext } from '../../context';
 
 const StartAuction = () => {
   const {connect, address, mynft, getNFTData, getMyNfts, nfttoken, tokens } = useStateContext();
+//console.log("sif",mynft);
   useEffect(() => {
    // nfttoken();
     // getMyNfts();

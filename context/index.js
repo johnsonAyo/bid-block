@@ -111,8 +111,8 @@ export const StateContextProvider = ({ children }) => {
       
     }  
     
-    async function getMyNfts(req, res) {
-      try {
+    async function getMyNfts() {
+       try {
         if(address){
           const contracts = await getContractData();
           //Pull the deployed contract instance
@@ -200,8 +200,9 @@ export const StateContextProvider = ({ children }) => {
             const tokenURI = await contracts.call('tokenURI', [i.tokenId]);
             let meta = await axios.get(tokenURI);
             meta = meta.data;
-           // console.log("shall we",  parseInt(i.endAt['_hex']));
-            //console.log("net price",  ethers.utils.formatEther(i.price.toString()));
+           console.log("start time",  i.startAt.toNumber());
+            console.log("endtime",  i.endAt.toNumber());
+            console.log("revealtime",  i.revealEndtime.toNumber());
             // IPname, description, fullname, country, street
     
             let item = {
