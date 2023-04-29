@@ -34,12 +34,15 @@ const getfromContract = async() => {
 
 const SearchBar = () => {  
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { connect, address, getNFTData, getMyNfts, nfttoken, transferFund, isAuctionOpen, mintNft, formParams, updateFormParams } = useStateContext();
+  const { connect, address, alerting, setAlert, getNFTData, getMyNfts, nfttoken, transferFund, isAuctionOpen, mintNft, formParams, updateFormParams } = useStateContext();
   const tabStyle = {
     marginRight: "10",
     width: "60rem",
     rounded: "lg",
   };
+  if(address){
+    setAlert("");
+   }
     
   const [fileURL, setFileURL] = useState(null);
   async function OnChangeFile(e) {
@@ -85,10 +88,10 @@ const SearchBar = () => {
 
   return (
     <>
+      <Text>{alerting}</Text>
       <Flex justifyContent="center" paddingTop={10} gap={10}>
         {/* <Input placeholder="Search" htmlSize={4} width="sm" variant="filled" /> */}
-        {/* <Text>{address}</Text> */}
-        <Button
+          <Button
           colorScheme="black"
           bgColor="black"
           size="md"

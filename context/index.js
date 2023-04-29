@@ -44,7 +44,7 @@ export const StateContextProvider = ({ children }) => {
   const [startauctionParams, startAuctionParams ] = useState({ tokenId:'', price:'', auction_duration:'', auction_reveal:'' });
   const [byte, setByte] = useState();
   const [tokens, setalltokens] = useState([]);
-   
+  const [alerting, setAlert] = useState("");
    const checkIfWalletIsConnected = async () => {
      try {
       const provider = new ethers.providers.Web3Provider(ethereum);
@@ -61,6 +61,7 @@ export const StateContextProvider = ({ children }) => {
       console.log(error);
       }
    }
+
    //This function uploads the metadata to IPFS
     async function uploadMetadataToIPFS(fileURL) {
       const {ownername, description} = formParams;
@@ -91,6 +92,7 @@ export const StateContextProvider = ({ children }) => {
       console.log("addressing", address);
       try {
         if(address){
+          setAlert("");
           const contracts = await getContractData();      
           const metadataURL = await uploadMetadataToIPFS(fileURL);      
           const data = await contracts.call("mintNftAuction",[metadataURL]);
@@ -98,8 +100,10 @@ export const StateContextProvider = ({ children }) => {
           console.log("people", await data);
           // nfttoken();
           // getMyNfts();
+          
         } else {
-          alert("connect to you wallet, to proceed")
+          setAlert("connect to your wallet, to proceed");
+         // alert("connect to you wallet, to proceed")
         }
       } catch(error) {
         console.log("failed", error);
@@ -140,7 +144,7 @@ export const StateContextProvider = ({ children }) => {
           // console.log("out", items);
            storeMyNft(items);
           //updatemyData(items);
-        } else { console.log("connect to you wallet, to proceed"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           console.log( "Upload error"+e )
@@ -166,7 +170,7 @@ export const StateContextProvider = ({ children }) => {
           console.log("success", transaction);
           updateMessage("Data inserted successfully!")  
           //window.location.replace("/")
-        } else { console.log("connect to you wallet, to proceed"); }
+        } else { setAlert("connect to your wallet, to proceed");}
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -219,7 +223,7 @@ export const StateContextProvider = ({ children }) => {
         console.log("All nft data", items);
         setallNfts(items);
        
-        } else { console.log("connect to you wallet, to proceed"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           console.log( "Upload error"+e );
@@ -256,7 +260,7 @@ export const StateContextProvider = ({ children }) => {
               
           }))
           //updatemyData(items);
-        } else { console.log("connect to you wallet, to proceed"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -275,7 +279,7 @@ export const StateContextProvider = ({ children }) => {
           setByte(transaction);
           console.log("success bytes", transaction);    
           sealSuccess(true);      
-        } else { console.log("No wallet is connected"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -297,7 +301,7 @@ export const StateContextProvider = ({ children }) => {
          // console.log("success", transaction);
           bidSuccess(true);
           //alert("Success");            
-        } else { console.log("No wallet is connected"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -316,7 +320,7 @@ export const StateContextProvider = ({ children }) => {
           let transaction = await contracts.call('reveal', [_listId, _bidvalue, _passcode]);
           revealSuccess(true);   
           revealMessage("winner will be shown when the reveal time ends, keep waiting till then...");         
-        } else { console.log("No wallet is connected"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -332,7 +336,7 @@ export const StateContextProvider = ({ children }) => {
           const contracts = await getContractData();
           let transaction = await contracts.call('completeAuction', [listId]);
           alert("Success");            
-        } else { console.log("No wallet is connected"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -348,7 +352,7 @@ export const StateContextProvider = ({ children }) => {
           const contracts = await getContractData();
           let transaction = await contracts.call('withdrawBid', [listId]);
           alert("Success");            
-        } else { console.log("No wallet is connected"); }
+        } else { setAlert("connect to your wallet, to proceed"); }
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -362,8 +366,8 @@ export const StateContextProvider = ({ children }) => {
           let amountvalue = ethers.utils.parseEther(amount);   
           const contracts = await getContractData();
           let transaction = await contracts.call(' _transferFund', [to, amountvalue]);
-          alert("Success");            
-        } else { console.log("No wallet is connected"); } 
+          setAlert("success");;            
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -378,7 +382,7 @@ export const StateContextProvider = ({ children }) => {
           let transaction = await contracts.call('isAuctionExpired', [Id]);
           console.log("success", transaction.toString());
           //alert("Success");            
-        } else { console.log("No wallet is connected"); } 
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -393,7 +397,7 @@ export const StateContextProvider = ({ children }) => {
           let transaction = await contracts.call('isReavelTimeOpen', [Id]);
           console.log("success", transaction.toString());
           //alert("Success");            
-        } else { console.log("No wallet is connected"); } 
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -411,7 +415,7 @@ export const StateContextProvider = ({ children }) => {
           let transaction = await contracts.call('highestBidder', [id]);
           highestBidder(transaction);
           console.log("win address", transaction.toString());  
-        } else { console.log("No wallet is connected"); } 
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -428,7 +432,7 @@ export const StateContextProvider = ({ children }) => {
           let transaction = await contracts.call('highestBid', [id]);
           highestValue(transaction);
           console.log("highvalue",transaction.toString());     
-        } else { console.log("No wallet is connected"); } 
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           alert( "Upload error"+e )
@@ -452,7 +456,7 @@ export const StateContextProvider = ({ children }) => {
           //console.log("fibi",transaction);
           setalltokens([...transaction]);
           return transaction;
-        } else { console.log("No wallet is connected"); } 
+        } else { setAlert("connect to your wallet, to proceed"); } 
       }
       catch(e) {
           console.log( "Upload error"+e )
@@ -463,6 +467,7 @@ export const StateContextProvider = ({ children }) => {
       const { listId } = idParams;      
       try {
         if(address){ 
+          setAlert("")
           let transaction = [];   
           const contracts = await getContractData();
           //console.log("sealed info", contracts);
@@ -473,7 +478,7 @@ export const StateContextProvider = ({ children }) => {
          // }
           //highestValue(transaction);
           //console.log("tokenId amir",transact);
-        } else { console.log("No wallet is connected"); 
+        } else { setAlert("connect to your wallet, to proceed");
       } }
       catch(e) {
           alert( "Upload error"+e )
@@ -483,7 +488,7 @@ export const StateContextProvider = ({ children }) => {
       checkIfWalletIsConnected();
       //getMyNfts();
       highestBid()
-      winAdd()
+      winAdd();
       // isReavelTimeOpen(1)
       // isAuctionExpired(1)
       //nfttoken();
@@ -542,7 +547,9 @@ export const StateContextProvider = ({ children }) => {
         sealedDetails,
         getAllNFTs,
         allNfts,
-        setallNfts
+        setallNfts,
+        setAlert,
+        alerting
       }}
     >
       {children}
