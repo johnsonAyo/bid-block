@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Flex, Text, Box, Button } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { useStateContext } from '../../context';
+import Link from "next/link";
 
 const liveList = [
   {
@@ -22,29 +23,33 @@ const liveList = [
   },
 ];
 
-const MynftCard = () => {
+const MynftCard = (data) => {
+  const {connect, address, getNFTData, getMyNfts, nfttoken, tokens } = useStateContext();
+  useEffect(() => {
+  //  nfttoken();
+  });
   return (
     <Box>
-      <Flex justifyContent="space-between">
-        <Text fontSize="2xl" color="red">
-          My Nft
-        </Text>
-        <Text fontSize="md"> See All</Text>
-      </Flex>
       <Flex gap={5} marginBottom="10">
       {/* <Image boxSize="xs" src={mynft.image} alt="" rounded="xl" /> */}
-        {liveList.map((auction) => {
-          return (
-            <Box key={auction.id} color="black">
+        {/* {liveList.map((auction) => { */}        
+            <Box key={data.data.tokenId} color="black" mr={10}>
               <a href="./nft-auction-page">
-                <Image boxSize="xs" src={auction.img} alt="" rounded="xl" />
+                <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" />
               </a>
 
               <Box>
-              <a
-                href="./create-listing"
+              <Link
+                href={{
+                  pathname: `./create-listing/[tokenId]`,
+                  query: {
+                    id: data.data.tokenId, // pass the id 
+                  },
+                }}
+                as={`/create-listing/${data.data.tokenId}`}
                 className="block px-8 py-4 hover:border"
               >
+                
                 <Button 
                   position="absolute"
                   marginTop="-11rem"
@@ -53,11 +58,11 @@ const MynftCard = () => {
                 >
                   StartAuction
                 </Button>
-              </a>
+              </Link>
               </Box>
             </Box>
-          );
-        })}
+     
+        {/* })} */}
       </Flex>
      
     </Box>

@@ -3,6 +3,7 @@ import { Flex, Text, Box } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const liveList = [
   {
@@ -43,8 +44,9 @@ const UpcomingList = [
 ];
 
 
-const AuctionCard = () => {
-  
+const AuctionCard = (data) => {
+  const router = useRouter();
+  //console.log("card", data);
   return (
     <Box>
       <Flex justifyContent="space-between">
@@ -53,75 +55,94 @@ const AuctionCard = () => {
         </Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
-      {/* <motion.li className="card" whileHover={{
-        position: 'relative',
-        zIndex: 1,
-        background: 'white',
-        scale: 1.2,
-        transition: {
-          duration: .2
-        }
-      }}> */}
+   
       <Flex gap={5} marginBottom="10">
-      
-        {liveList.map((auction) => {
-          return (
-            <Box key={auction.id} color="black">
-              <Link href="./auctions/1">
-                <Image boxSize="xs" src={auction.img} alt="" rounded="xl" />
-              </Link>
-            </Box>
-          );
-        })}
-        
+            <Box key={data.data.tokenId} color="black">
+                {/* <Link
+                   href={{
+                    pathname: `./auctions/[tokenId]`,
+                    query: {
+                      id: data.data.tokenId, // pass the id 
+                    },
+                  }}
+                  as={`/auctions/${data.data.tokenId}`}                
+                >    */}
+             
+                          
+                    <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" onClick={()=>{
+                                     router.push({
+                                      pathname: "./auctions/[tokenId]",
+                                      query: { data: JSON.stringify(data.data) },
+                                    });
+                    }}/> 
+                               
+               {/* </Link> */}
+            </Box>      
       </Flex>
-      {/* </motion.li> */}
+  
       
       <Flex justifyContent="space-between">
-        <Text fontSize="2xl">Upcoming Auction</Text>
+        <Text fontSize="2xl">Upcoming auctions</Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
+
       <Flex gap={5} marginBottom="10">
-        {UpcomingList.map((auction) => {
-          return (
-            <Box key={auction.id} color="black">
-              <a href="./nft-auction-page">
-                <Image boxSize="xs" src={auction.img} alt="" rounded="xl" />
-              </a>
-            </Box>
-          );
-        })}
+            <Box key={data.data.tokenId} color="black">
+                <Link
+                   href={{
+                    pathname: `./auctions/[tokenId]`,
+                    query: {
+                      id: data.data.tokenId, // pass the id 
+                    },
+                  }}
+                  as={`/auctions/${data.data.tokenId}`}                
+                >   
+                    <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" />               
+                </Link>
+            </Box>      
       </Flex>
+
       <Flex justifyContent="space-between">
         <Text fontSize="2xl">Todays Pick</Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
-      <Flex gap={5} marginBottom="10">
-        {UpcomingList.map((auction) => {
-          return (
-            <Box key={auction.id} color="black">
-              <a href="./nft-auction-page">
-                <Image boxSize="xs" src={auction.img} alt="" rounded="xl" />
-              </a>
-            </Box>
-          );
-        })}
+       <Flex gap={5} marginBottom="10">
+            <Box key={data.data.tokenId} color="black">
+              <Link
+                   href={{
+                    pathname: `./auctions/[tokenId]`,
+                    query: {
+                      id: data.data.tokenId, // pass the id 
+                    },
+                  }}
+                  as={`/auctions/${data.data.tokenId}`}                
+                >   
+                    <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" />               
+              </Link>
+            </Box>      
       </Flex>
+
       <Flex justifyContent="space-between">
         <Text fontSize="2xl">New Auctions</Text>
         <Text fontSize="md"> See All</Text>
       </Flex>
-      <Flex gap={5} marginBottom="10">
-        {UpcomingList.map((auction) => {
-          return (
-            <Box key={auction.id} color="black">
-              <a href="./nft-auction-page">
-                <Image boxSize="xs" src={auction.img} alt="" rounded="xl" />
-              </a>
-            </Box>
-          );
-        })}
+
+       <Flex gap={5} marginBottom="10">
+            <Box key={data.data.tokenId} color="black">
+                <Link
+                   href={{
+                    pathname: `./auctions/[tokenId]`,
+                    query: {
+                      id: data.data.tokenId, // pass the id 
+                    },
+                  }}
+                  as={`/auctions/${data.data.tokenId}`}                
+                >   
+                    <Image boxSize="xs" src={data.data.image} alt="" rounded="xl" />               
+                </Link>
+            </Box>      
       </Flex>
+
     </Box>
   );
 };

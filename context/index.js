@@ -7,7 +7,7 @@ import { uploadFileToIPFS, uploadJSONToIPFS } from "../pages/pianata";
 import { Sepolia } from "@thirdweb-dev/chains";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import axios from "axios";
-
+import NextCors from 'nextjs-cors';
 const StateContext = createContext();
 
 const getContractData = async() => {
@@ -16,13 +16,14 @@ const getContractData = async() => {
   const address = await signer.getAddress();
   const sdk = ThirdwebSDK.fromSigner(signer);
    //const sdk = new ThirdwebSDK(Sepolia);
-   const contract = await sdk.getContract("0xFcdb6dA1Ae562c6a39b8D72aff3299af464b907F");
+   const contract = await sdk.getContract("0x951fA01d31C1ACF67F3714d295411294C66f35e1");
    return contract;
 };
 
 export const StateContextProvider = ({ children }) => {
    const [currentaddress, setAddress] = useState("");
-   const [mynft, storeMyNft] = useState(""); 
+   const [mynft, storeMyNft] = useState([]); 
+   const [allNfts, setallNfts] = useState([]);
    const [sealed, sealSuccess] = useState(false);
    const [donebid, bidSuccess] = useState(false);
    const [revealed, revealSuccess] = useState(false);
@@ -40,8 +41,9 @@ export const StateContextProvider = ({ children }) => {
   const [revealParams, setrevealParams ] = useState({ listId:'', bidvalue:'', passcode:'' });
   const [idParams, setidParams ] = useState({ listId:'' });
   const [transferParams, settransferParams ] = useState({ to:'', amount:'' });
+  const [startauctionParams, startAuctionParams ] = useState({ tokenId:'', price:'', auction_duration:'', auction_reveal:'' });
   const [byte, setByte] = useState();
-
+  const [tokens, setalltokens] = useState([]);
    
    const checkIfWalletIsConnected = async () => {
      try {
@@ -53,7 +55,7 @@ export const StateContextProvider = ({ children }) => {
           console.log("signer", signer);
           console.log("address", address);
           console.log("sdk", sdk);
-          const contract = await sdk.getContract("0xFcdb6dA1Ae562c6a39b8D72aff3299af464b907F");
+          const contract = await sdk.getContract("0x951fA01d31C1ACF67F3714d295411294C66f35e1");
           //console.log("monica", contract);
       } catch (error) {
       console.log(error);
@@ -94,6 +96,8 @@ export const StateContextProvider = ({ children }) => {
           const data = await contracts.call("mintNftAuction",[metadataURL]);
           //const data = await contracts.call("name");       
           console.log("people", await data);
+          // nfttoken();
+          // getMyNfts();
         } else {
           alert("connect to you wallet, to proceed")
         }
@@ -102,54 +106,64 @@ export const StateContextProvider = ({ children }) => {
       }
       
     }  
-
-    async function getMyNfts() {
+    
+    async function getMyNfts(req, res) {
       try {
         if(address){
           const contracts = await getContractData();
           //Pull the deployed contract instance
-          // let transaction = await contracts.call('getMyNFTs');
-          // console.log("support to her", transaction);
-          //const items = await Promise.all(transaction.map(async i => {
-            let val = 1;
+          
+          //const alltokens = [1];
+           // console.log("gap", tokens);
+            const game = [1];
+          const items = await Promise.all(tokens.map(async i => {
+            try {
+            //console.log("look", i);
+            let val = i;
             let tokenId = val.toString();
-              const tokenURI = await contracts.call('tokenURI', [tokenId]);
+            const tokenURI = await contracts.call('tokenURI', [tokenId]);        
               let meta = await axios.get(tokenURI);
+             // console.log("can", meta.data);
               meta = meta.data;
-              // console.log("meta dts", meta);
               let item = {
-                //tokenId: i.tokenId.toNumber(),
+                tokenId: tokenId,
                 image: meta.image,
                 ownername: meta.ownername,
-                description: meta.description,
+                description: meta.description, 
               }
-              storeMyNft(meta);
-              console.log("my nfts", item);
-              return item;
-              
-          //}))
+             // console.log("out", item);
+              return item;  
+            } catch(error){
+              console.log("modul", error);
+            }              
+          }));
+          // console.log("out", items);
+           storeMyNft(items);
           //updatemyData(items);
         } else { console.log("connect to you wallet, to proceed"); }
       }
       catch(e) {
-          alert( "Upload error"+e )
+          console.log( "Upload error"+e )
       }
     }
   
     async function startAuction() {
-      const { tokenId, price, auction_duration, auction_reveal } = listingParams;
+      const { tokenId, price, auction_duration, auction_reveal } = startauctionParams;
+      console.log("kids", startauctionParams);
       let _price = ethers.utils.parseEther(price);
       let _tokenId = tokenId.toString();
-      let durationInSeconds = ethers.utils.parseEther(auction_duration);
-      let revealInSeconds = ethers.utils.parseEther(auction_reveal);
+      let durationInSeconds = new Date(auction_duration).getTime();
+      let revealInSeconds = new Date(auction_reveal).getTime();
+      console.log("id", tokenId);
       try {
         if(address){     
           const contracts = await getContractData();
           updateMessage("Please wait.. uploading (upto 5 mins)")     
           let startingPrice = await contracts.call('getListPrice');
-          startingPrice = startingPrice.toString()
+          startingPrice = startingPrice.toString();
+          console.log("be", durationInSeconds, revealInSeconds);
           let transaction = await contracts.call('startAuctionListing', [_tokenId, _price, durationInSeconds, revealInSeconds],{ value: startingPrice });
-          //console.log("success", transaction);
+          console.log("success", transaction);
           updateMessage("Data inserted successfully!")  
           //window.location.replace("/")
         } else { console.log("connect to you wallet, to proceed"); }
@@ -159,13 +173,66 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
+    const epochTohumanReadble = (timestamp) => {        
+      let date = new Intl.DateTimeFormat('en-US', 
+      { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: 
+      '2-digit', second: '2-digit' }).format(timestamp)
+      return date;       
+    }
+
+    async function getAllNFTs() {
+      try {
+        if(address){
+        //Pull the deployed contract instance
+        const contracts = await getContractData();
+        let transaction = await contracts.call('getAllNFTListings');
+        //console.log("transacts", transaction);
+      
+        //Fetch all the details of every NFT from the contract and display
+        const items = await Promise.all(transaction.map(async i => {
+          //if(i == 1){
+            let v = i.tokenId;
+            //console.log("nasawe", v)
+            const tokenURI = await contracts.call('tokenURI', [i.tokenId]);
+            let meta = await axios.get(tokenURI);
+            meta = meta.data;
+           // console.log("shall we",  parseInt(i.endAt['_hex']));
+            //console.log("net price",  ethers.utils.formatEther(i.price.toString()));
+            // IPname, description, fullname, country, street
+    
+            let item = {
+              tokenId: i.tokenId.toNumber(),
+              seller: i.seller,
+              price: ethers.utils.formatEther(i.price.toString()), 
+              netPrice: ethers.utils.formatEther(i.netPrice.toString()), 
+              startAt: epochTohumanReadble(i.startAt.toNumber()),
+              endAt: epochTohumanReadble(i.endAt.toNumber()),
+              revealEndtime: epochTohumanReadble(i.revealEndtime.toNumber()),
+              status: i.status,
+              image: meta.image,
+              ownername: meta.ownername,
+              description: meta.description,
+            }
+            return item;
+          //} else {console.log("why")}
+        }));      
+        console.log("All nft data", items);
+        setallNfts(items);
+       
+        } else { console.log("connect to you wallet, to proceed"); }
+      }
+      catch(e) {
+          console.log( "Upload error"+e );
+      }
+    }
+
     async function getNFTData() {
       try {
         if(address){
           const contracts = await getContractData();
-          console.log("support con", contracts);
-          let transaction = await contracts.call('getMyNFTs');
-          console.log("support con", transaction);
+          console.log("contraacts", contracts);
+          let transaction = await contracts.call('getMyListingNFTs');
+          console.log("transacts", transaction);
           const items = await Promise.all(transaction.map(async i => {
               const tokenURI = await contracts.call('tokenURI', [i.tokenId]);
               console.log('alya', i.tokenId);
@@ -174,11 +241,17 @@ export const StateContextProvider = ({ children }) => {
               meta = meta.data;
               let item = {
                 tokenId: i.tokenId.toNumber(),
+                seller: i.seller,
+                price: ethers.utils.formatEther(i.price.toString()),
+                startAt: i.startAt.toNumber(),
+                endAt: i.endAt.toNumber(),
+                revealEndtime: i.revealEndtime.toNumber(),
+                status: i.status.toNumber(),
                 image: meta.image,
                 ownername: meta.ownername,
                 description: meta.description,
               }
-              console.log("support to her", item);
+              console.log("my list nfts", item);
               return item;
               
           }))
@@ -212,7 +285,7 @@ export const StateContextProvider = ({ children }) => {
     async function bid() {
       const { listId, sealhash, bidamount } = bidParams;
       // console.log("vla", listId);
-      // console.log("you", sealhash);
+       console.log("you", bidParams);
       // console.log("stirn", sealhash.toString());
       try {
         if(address){    
@@ -233,6 +306,7 @@ export const StateContextProvider = ({ children }) => {
     
     async function reveal() {
       const { listId, bidvalue, passcode } = revealParams;
+      console.log("reveal", revealParams);
       try {
         if(address){   
           let _bidvalue = ethers.utils.parseEther(bidvalue);
@@ -251,6 +325,7 @@ export const StateContextProvider = ({ children }) => {
 
     async function completeAuction(listingId) {
       const { listId } = idParams;
+      console.log("win", idParams);
       try {
         if(address){  
           let listId = listingId.toString();      
@@ -266,6 +341,7 @@ export const StateContextProvider = ({ children }) => {
 
     async function withdrawBid(listingId) {
       const { listId } = idParams;
+      console.log("draw", idParams);
       try {
         if(address){  
           let listId = listingId.toString();      
@@ -294,13 +370,28 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
-    async function isAuctionOpen(id){
+    async function isAuctionExpired(id){
       try {
         if(address){  
           let Id = id.toString();   
           const contracts = await getContractData();
-          let transaction = await contracts.call('isAuctionOpen', [Id]);
-          console.log("success", transaction);
+          let transaction = await contracts.call('isAuctionExpired', [Id]);
+          console.log("success", transaction.toString());
+          //alert("Success");            
+        } else { console.log("No wallet is connected"); } 
+      }
+      catch(e) {
+          alert( "Upload error"+e )
+      }
+    }
+
+    async function isReavelTimeOpen(id){
+      try {
+        if(address){  isReavelTimeOpen
+          let Id = id.toString();   
+          const contracts = await getContractData();
+          let transaction = await contracts.call('isReavelTimeOpen', [Id]);
+          console.log("success", transaction.toString());
           //alert("Success");            
         } else { console.log("No wallet is connected"); } 
       }
@@ -310,13 +401,16 @@ export const StateContextProvider = ({ children }) => {
     }
 
     async function winAdd(){
-      const { listId } = idParams;
+      // const { listId } = idParams;
+      // const id = listId.toString();
+      const listId = 1;
+      const id = listId.toString();
       try {
         if(address){    
           const contracts = await getContractData();
-          let transaction = await contracts.call('highestBidder', [listId]);
+          let transaction = await contracts.call('highestBidder', [id]);
           highestBidder(transaction);
-          console.log("win address", transaction);  
+          console.log("win address", transaction.toString());  
         } else { console.log("No wallet is connected"); } 
       }
       catch(e) {
@@ -325,14 +419,15 @@ export const StateContextProvider = ({ children }) => {
     }
 
     async function highestBid(){
-      const { listId } = idParams;
-      
+     // const { listId } = idParams;
+     const listId = 1;
+      const id = listId.toString();
       try {
         if(address){    
           const contracts = await getContractData();
-          let transaction = await contracts.call('highestBid', [listId]);
+          let transaction = await contracts.call('highestBid', [id]);
           highestValue(transaction);
-          console.log("highvalue",transaction);     
+          console.log("highvalue",transaction.toString());     
         } else { console.log("No wallet is connected"); } 
       }
       catch(e) {
@@ -340,24 +435,27 @@ export const StateContextProvider = ({ children }) => {
       }
     }
 
-    async function nfttoken(){
-      const { listId } = idParams;      
+    async function nfttoken(){  
       try {
         if(address){ 
-          let transaction = [];   
           const contracts = await getContractData();
-          console.log("tokenId amir");
-          for(let i = 0; i < 1; i++){
+          let tokens = await contracts.call('tokenlength',[address]);
+          //console.log("token length", tokens);
+          let transaction = [];   
+          //console.log("tokenId amir");
+          for(let i = 0; i < tokens; i++){
             let transact = await contracts.call('tokenaddress', [address,i]);
-            transact = transact.toString();
+            transact = transact.toNumber();
             transaction.push(transact);
+            
           }
-          //highestValue(transaction);
-          console.log("tokenId amir",transaction);
+          //console.log("fibi",transaction);
+          setalltokens([...transaction]);
+          return transaction;
         } else { console.log("No wallet is connected"); } 
       }
       catch(e) {
-          alert( "Upload error"+e )
+          console.log( "Upload error"+e )
       }
     }
     
@@ -367,16 +465,16 @@ export const StateContextProvider = ({ children }) => {
         if(address){ 
           let transaction = [];   
           const contracts = await getContractData();
-          console.log("sealed info", contracts);
+          //console.log("sealed info", contracts);
           //for(let i = 0; i < 1; i++){
             let transact = await contracts.call('bidMap', [1, address, 0]);
            transact = transact.toString();
             // transaction.push(transact);
          // }
           //highestValue(transaction);
-          console.log("tokenId amir",transact);
-        } else { console.log("No wallet is connected"); } 
-      }
+          //console.log("tokenId amir",transact);
+        } else { console.log("No wallet is connected"); 
+      } }
       catch(e) {
           alert( "Upload error"+e )
       }
@@ -384,8 +482,11 @@ export const StateContextProvider = ({ children }) => {
     useEffect(()=>{
       checkIfWalletIsConnected();
       //getMyNfts();
-      
-      nfttoken();
+      highestBid()
+      winAdd()
+      // isReavelTimeOpen(1)
+      // isAuctionExpired(1)
+      //nfttoken();
       //getNFTData();
     }, []);
     
@@ -407,7 +508,8 @@ export const StateContextProvider = ({ children }) => {
         completeAuction,
         withdrawBid,
         transferFund,
-        isAuctionOpen,
+        isAuctionExpired,
+        isReavelTimeOpen,
         getNFTData,
         getMyNfts,
         mynft,
@@ -430,11 +532,17 @@ export const StateContextProvider = ({ children }) => {
         revealParams,
         idParams,
         transferParams,
+        startauctionParams, 
+        startAuctionParams,
         byte,
         winAdd,
         highestBid,
         nfttoken,
-        sealedDetails
+        tokens,
+        sealedDetails,
+        getAllNFTs,
+        allNfts,
+        setallNfts
       }}
     >
       {children}
