@@ -39,7 +39,7 @@ export default function MainNavbar() {
           Asset        
       </Link> */}
 
-      <Link href="/mynft" className="block px-8 py-4 hover:border">        
+      <Link href="/Mynft" className="block px-8 py-4 hover:border">        
         Nfts      
       </Link>
       {/* <CustomButton 
