@@ -200,7 +200,7 @@ export const StateContextProvider = ({ children }) => {
             const tokenURI = await contracts.call('tokenURI', [i.tokenId]);
             let meta = await axios.get(tokenURI);
             meta = meta.data;
-           console.log("start time",  i.startAt.toNumber());
+            console.log("start time",  i.startAt.toNumber());
             console.log("endtime",  i.endAt.toNumber());
             console.log("revealtime",  i.revealEndtime.toNumber());
             // IPname, description, fullname, country, street
