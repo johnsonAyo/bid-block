@@ -66,7 +66,7 @@ export default function MainNavbar() {
         }}
       >  
        
-        Account
+        Connect
       </Button>
     </Flex>
   );
