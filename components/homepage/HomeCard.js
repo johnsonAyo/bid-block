@@ -27,7 +27,7 @@ export default function HomeCard() {
           Welcome to the Future of auctions <br />
           where Heroes are made and legends are born
         </Text>
-        <Text>{currentaddress}</Text>
+        {/* <Text>{currentaddress}</Text> */}
         <Box marginTop="20">
           
           <ConnectWallet

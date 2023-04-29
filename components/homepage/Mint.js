@@ -87,7 +87,7 @@ const SearchBar = () => {
     <>
       <Flex justifyContent="center" paddingTop={10} gap={10}>
         {/* <Input placeholder="Search" htmlSize={4} width="sm" variant="filled" /> */}
-        <Text>{address}</Text>
+        {/* <Text>{address}</Text> */}
         <Button
           colorScheme="black"
           bgColor="black"

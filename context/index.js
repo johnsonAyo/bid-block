@@ -7,7 +7,7 @@ import { uploadFileToIPFS, uploadJSONToIPFS } from "../pages/pianata";
 import { Sepolia } from "@thirdweb-dev/chains";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import axios from "axios";
-import NextCors from 'nextjs-cors';
+
 const StateContext = createContext();
 
 const getContractData = async() => {
