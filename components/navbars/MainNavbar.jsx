@@ -23,7 +23,7 @@ export default function MainNavbar() {
           <Image src="/images/svg/logo.svg" alt="" width="100" height="100" />        
       </Link>
 
-      <Link href="/home" className="block px-8 py-4 hover:border">        
+      <Link href="/Home" className="block px-8 py-4 hover:border">        
           Home        
       </Link>
 
